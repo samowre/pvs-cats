@@ -1,0 +1,45 @@
+(category
+ (src_TCC1 0
+  (src_TCC1-1 nil 3641324753
+   ("" (lemma "type_constraint")
+    (("" (skeep)
+      (("" (skeep) (("" (inst 1 "lambda (a: Ar): O") nil nil)) nil))
+      nil))
+    nil)
+   ((Ar formal-type-decl nil category nil)
+    (Ob formal-type-decl nil category nil)
+    (type_constraint formula-decl nil category nil))
+   nil))
+ (id_TCC1 0
+  (id_TCC1-1 nil 3641324753 ("" (existence-tcc) nil nil) nil nil))
+ (oh_TCC1 0
+  (oh_TCC1-1 nil 3641324753
+   ("" (lemma "type_constraint")
+    (("" (skosimp)
+      (("" (skosimp)
+        ((""
+          (inst 1 "lambda (a1: Ar, a2: Ar | composable?(a1, a2)): a!1")
+          nil nil))
+        nil))
+      nil))
+    nil)
+   ((Ar formal-type-decl nil category nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (composable? const-decl "bool" category nil)
+    (type_constraint formula-decl nil category nil))
+   nil))
+ (comp_assoc_TCC1 0
+  (comp_assoc_TCC1-1 nil 3641324753 ("" (subtype-tcc) nil nil) nil
+   nil))
+ (comp_assoc_TCC2 0
+  (comp_assoc_TCC2-1 nil 3641324753 ("" (subtype-tcc) nil nil) nil
+   nil))
+ (comp_assoc_TCC3 0
+  (comp_assoc_TCC3-1 nil 3641324753 ("" (subtype-tcc) nil nil) nil
+   nil))
+ (comp_id_TCC1 0
+  (comp_id_TCC1-1 nil 3641324753 ("" (subtype-tcc) nil nil) nil nil))
+ (comp_id_TCC2 0
+  (comp_id_TCC2-1 nil 3641324753 ("" (subtype-tcc) nil nil) nil nil)))
+

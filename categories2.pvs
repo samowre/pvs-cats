@@ -1,0 +1,18 @@
+category[Ob, Ar: TYPE]: THEORY
+BEGIN
+   ASSUMING
+     type_constraint: assumption exists (o: Ob): true iff exists (a: Ar): true
+   endassuming
+   src: [Ar -> Ob]
+   trg: [Ar -> Ob]
+   id: [Ob -> Ar]
+   id_ax: axiom forall (b: Ob): src(id(b)) = b & trg(id(b)) = b
+
+     % at this point it would be nice to define the set of composable arrows
+   composable?(a1, a2: Ar): bool = trg(a1) = src(a2);
+   o(a1: Ar, a2: Ar | composable? (a1, a2)): Ar
+   comp_src_trg: axiom (forall (f: Ar,g: Ar | composable?(f,g)): src(o(f,g))=src(f) & trg(o(f,g))=trg(g))
+   comp_assoc: axiom (forall (f: Ar,g: Ar,h: Ar | composable?(f,g) & composable?(g, h)): o(f,o(g,h)) = o(o(f,g),h))
+   comp_id: axiom (forall (f: Ar): o(id(src(f)), f) = f & o(f,id(trg(f))) = f)
+
+END category
