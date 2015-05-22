@@ -1,0 +1,71 @@
+categories[Ob, Ar: TYPE]: THEORY
+BEGIN
+ category: TYPE = 
+  [# src: [Ar -> Ob],
+     trg: [Ar -> Ob],
+     id: { m: [Ob -> Ar] | forall (b: Ob): src(m(b)) = b & trg(m(b)) = b },
+     % at this point it would be nice to define the set of composable arrows
+     comp: { m: [ { pa:[Ar,Ar] | trg(pa`1)=src(pa`2) } -> Ar] | 
+               (forall (f,g: Ar): trg(f)=src(g) => src(m(f,g))=src(f) & trg(m(f,g))=trg(g))
+             & (forall (f,g,h: Ar): trg(f)=src(g) & trg(g) = src(h) => m(f,m(g,h)) = m(m(f,g),h))
+             & (forall (f: Ar): m(id(src(f)), f) = f & m(f,id(trg(f))) = f) 
+} 
+ #]
+END categories
+
+preorderAsCat[T: TYPE, p: (preorder?[T])]: THEORY
+BEGIN
+ Ar: TYPE = {z:[T,T]|p(z)}
+ IMPORTING categories[T, Ar]
+ theCat: category = (# src:=(lambda (z: Ar): z`1), 
+                       trg:=(lambda (z: Ar): z`2), 
+                       id:=(lambda (t:T): (t,t)),
+                       comp:=(lambda (f: Ar, g: Ar | f`2 = g`1): (f`1,g`2))
+#)
+
+END preorderAsCat
+
+functors: THEORY
+BEGIN
+ IMPORTING categories	
+ functor?[Ob, Ar, Ob1, Ar1: TYPE](cat: category[Ob,Ar], cat1: category[Ob1,Ar1])
+                                 (F: [# ob: [Ob->Ob1], ar: [Ar->Ar1] #]): bool =
+     ( forall (f: Ar): F`ob(cat`src(f)) = cat1`src(F`ar(f))  
+                     & F`ob(cat`trg(f)) = cat1`trg(F`ar(f)) )
+   & ( forall (b: Ob): F`ar(cat`id(b)) = cat1`id(F`ob(b)) )
+%   & ( forall (f,g: Ar): cat`trg(f) = cat`src(g) => F`ar(cat`comp(f,g)) = cat1`comp(F`ar(f),F`ar(g)) )
+   & ( forall (f,g: Ar): LET o = cat`comp , ∘ = cat1`comp IN
+            cat`trg(f) = cat`src(g) => F`ar(f o g) = F`ar(f) ∘ F`ar(g) )
+
+  functor[Ob, Ar, Ob1, Ar1: TYPE](cat: category[Ob,Ar], cat1: category[Ob1,Ar1]): TYPE = 
+         (functor?[Ob,Ar,Ob1,Ar1](cat,cat1))
+
+END functors
+
+natTrans: THEORY
+BEGIN
+ IMPORTING functors
+  natTrans?[Ob, Ar, Ob1, Ar1: TYPE]
+           (cat: category[Ob,Ar], cat1: category[Ob1,Ar1])
+           (F: functor[Ob,Ar,Ob1,Ar1](cat,cat1), G: functor[Ob,Ar,Ob1,Ar1](cat,cat1)) 
+           (t: [Ob -> Ar1]): bool = 
+     ( forall (b: Ob): cat1`src(t(b)) = F`ob(b) & cat1`trg(t(b)) = G`ob(b) )
+%     & ( forall (f: Ar): cat1`comp( F`ar(f), t(cat`trg(f)) )
+%                         = cat1`comp( t(cat`src(f)), G`ar(f) ) )
+%     & ( forall (f: Ar): LET o = cat1`comp IN 
+%                         F`ar(f) o t(cat`trg(f)) = t(cat`src(f)) o G`ar(f) ) 
+END natTrans
+
+% monads and Kleisli triples; can we show Sam's def of monad is instance?
+
+adjunction[Ob, Ar, Ob1, Ar1: TYPE]: THEORY
+BEGIN
+ IMPORTING natTrans
+% need composition of functors with functors, functors with nat trans, and nat trans with nat trans
+
+  % F -| G with unit eta: id(Ob1,Ar1) ==> G o F
+  %             counit epsilon:  F o G ==> id(Ob,Ar)
+  % such that epsilon F o F eta = id_F
+  %      and  G eta o epsilon G = id_G
+END adjunction
+
