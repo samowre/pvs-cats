@@ -42,4 +42,55 @@
   (comp_id_TCC1-1 nil 3641324753 ("" (subtype-tcc) nil nil) nil nil))
  (comp_id_TCC2 0
   (comp_id_TCC2-1 nil 3641324753 ("" (subtype-tcc) nil nil) nil nil)))
+(preorderAsCat
+ (theCat_TCC1 0
+  (theCat_TCC1-1 nil 3641516799 ("" (assuming-tcc) nil nil) nil nil))
+ (theCat_TCC2 0
+  (theCat_TCC2-1 nil 3641516799
+   ("" (subtype-tcc)
+    (("" (grind)
+      (("" (grind -ifmatch nil)
+        (("" (typepred "p") (("" (grind) nil nil)) nil)) nil))
+      nil))
+    nil)
+   ((reflexive? const-decl "bool" relations nil)
+    (transitive? const-decl "bool" relations nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (T formal-type-decl nil preorderAsCat nil)
+    (pred type-eq-decl nil defined_types nil)
+    (preorder? const-decl "bool" orders nil)
+    (p formal-const-decl "(preorder?[T])" preorderAsCat nil))
+   nil))
+ (theCat_TCC3 0
+  (theCat_TCC3-1 nil 3641516799 ("" (subtype-tcc) nil nil) nil nil))
+ (theCat_TCC4 0
+  (theCat_TCC4-1 nil 3641516799
+   ("" (subtype-tcc)
+    (("1" (expand "composable?") (("1" (propax) nil nil)) nil)
+     ("2" (expand "composable?") (("2" (propax) nil nil)) nil))
+    nil)
+   ((Ar type-eq-decl nil preorderAsCat nil)
+    (p formal-const-decl "(preorder?[T])" preorderAsCat nil)
+    (preorder? const-decl "bool" orders nil)
+    (pred type-eq-decl nil defined_types nil)
+    (T formal-type-decl nil preorderAsCat nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (composable? const-decl "bool" category nil))
+   nil))
+ (theCat_id_ax_TCC1 0
+  (theCat_id_ax_TCC1-1 nil 3641516799 ("" (mapped-axiom-tcc) nil nil)
+   nil nil))
+ (theCat_comp_src_trg_TCC1 0
+  (theCat_comp_src_trg_TCC1-1 nil 3641516799
+   ("" (mapped-axiom-tcc) nil nil) nil nil))
+ (theCat_comp_assoc_TCC1 0
+  (theCat_comp_assoc_TCC1-1 nil 3641516799
+   ("" (mapped-axiom-tcc) nil nil) nil nil))
+ (theCat_comp_id_TCC1 0
+  (theCat_comp_id_TCC1-1 nil 3641516799 ("" (mapped-axiom-tcc) nil nil)
+   nil nil)))
 

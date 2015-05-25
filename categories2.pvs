@@ -16,3 +16,61 @@ BEGIN
    comp_id: axiom (forall (f: Ar): o(id(src(f)), f) = f & o(f,id(trg(f))) = f)
 
 END category
+
+
+preorderAsCat[T: TYPE, p: (preorder?[T])]: THEORY
+BEGIN
+ Ar: TYPE = {z:[T,T]|p(z)}
+ theCat: THEORY = 
+   category[T, Ar]{{src:=(lambda (z: Ar): z`1), 
+                    trg:=(lambda (z: Ar): z`2), 
+                    id:=(lambda (t:T): (t,t)),
+                    o:=(lambda (f: Ar, g: Ar | f`2 = g`1): (f`1,g`2))
+                   }}
+END preorderAsCat
+
+
+% Doesn't typecheck, not sure why:
+%functors: THEORY
+%BEGIN
+% functor?[Ob, Ar, Ob1, Ar1: TYPE](cat: category[Ob,Ar], cat1: category[Ob1,Ar1])
+%                                 (F: [# ob: [Ob->Ob1], ar: [Ar->Ar1] #]): bool = TRUE
+%END functors
+
+graphMorph[Ob, Ar, Ob1, Ar1: TYPE]: THEORY
+BEGIN
+   ASSUMING
+     type_constraint: assumption (exists (o: Ob): true) => exists (a: Ar): true
+   endassuming
+
+
+   cat: THEORY = category[Ob, Ar]
+   cat1: THEORY = category[Ob1, Ar1]
+   obMap: [Ob -> Ob1]
+   arMap: [Ar -> Ar1]
+   b,c: VAR Ob
+   f,g: VAR Ar
+   preserve_src_trg: AXIOM forall f: cat1.src(arMap(f)) = obMap(cat.src(f))  
+                       AND  cat1.trg(arMap(f)) = obMap(cat.trg(f)) 
+END graphMorph
+
+
+functor[Ob, Ar, Ob1, Ar1: TYPE]: THEORY
+BEGIN
+  IMPORTING graphMorph[Ob, Ar, Ob1, Ar1]
+
+  preserve_id: AXIOM forall (f: Ar):  TRUE
+
+  preserve_comp: AXIOM forall (f,g: Ar): 
+    LET o = cat`comp , ∘ = cat1`comp IN
+    cat`trg(f) = cat`src(g) => arMap(f o g) = arMap(f) ∘ arMap(g) 
+
+END functor
+  
+
+
+
+
+
+
+
